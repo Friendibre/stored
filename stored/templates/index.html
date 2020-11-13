@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<hr>
+<div class="container">
+    <article>
+        <h2>Santa's official 'Make a wish system!'</h2>
+        <p>Post your wish below and Santa will definitely consider it this year!</p>
+
+        <p>You can also see other kids' wishes to get some inspiration :)<br>Enjoy!</p>
+    </article>
+    <br>
+	<section class="comments">
+        <h4>List:</h4>
+        {% if not comments %}
+            <p>No wishes... yet!</p>
+        {% else %}
+            <form id="clear-comments" action="{{ url_for('clear_comments') }}" method="post">
+                <input class="clear button-primary" value="Clear Comments" type="submit"/>
+            </form>
+        {% endif %}
+		{% for comment in comments %}
+			<article class="comment">
+				<span class="name">{{ comment.name }} says:</span>
+                <p class="text">{{ comment.comment|safe }}</p>
+			</article>
+		{% endfor %}
+	</section>
+
+    <form id="new-comment" action="{{ url_for('comment') }}" method="post">
+        <fieldset>
+            <legend>What's your wish?</legend>
+            <br>
+            <div class="row">
+                <div class="six columns">
+                    <label for="name">Put your name here:</label>
+                    <input class="u-full-width" id="name" name="name" type="text" placeholder="Strange fox"/>
+                </div>
+            </div>
+            <div class="row">
+                <div class="twelve columns">
+                    <label for="comment-text">Put your wish here:</label>
+                    <textarea name="comment" id="comment-text" class="u-full-width" cols="30" rows="20" placeholder="A brand new car..."></textarea>
+                </div>
+            </div>
+            <input class="button-primary" type="submit" value="Submit"/>
+        </fieldset>
+    </form>
+</div>
+{% endblock %}
